@@ -1,0 +1,54 @@
+create database banking;
+use banking;
+show tables;
+create table branch(bname varchar(30) primary key,bcity varchar(30), assets real);
+create table acc(accno int primary key, bname varchar(30), foreign key(bname) references branch(bname) on delete cascade,balance real );
+create table depositor(custId varchar(20) primary key, custStreet varchar(30), custCity varchar(30));
+create table loan(loanNum int primary key,bname varchar(30), foreign key(bname) references branch(bname),amt real);
+
+create table borrower(loanNum int, foreign key(loanNum) references loan(loanNum) on delete cascade ,custId varchar(20),foreign key(custId) references depositor(custId) on delete cascade);
+
+insert into branch values('1qaz','bangalore',67398678);
+insert into branch values('2wsx','delhi',34567890);
+insert into branch values('3edc','mumbai',236578923);
+insert into branch values('4rfv','kolkata',91245678);
+insert into branch values('5tgb','pune',12345765);
+
+
+
+
+insert into acc values(9887,'1qaz',98000);
+insert into acc values(8776,'2wsx',345670);
+insert into acc values(7665,'3edc',987990);
+insert into acc values(6554,'4rfv',20345);
+insert into acc values(5443,'5tgb',10340);
+
+
+
+
+insert into depositor values('pan','cubbonhalli','bangalore');
+insert into depositor values('wan','hawra','kolkate');
+insert into depositor values('tan','chandni chowk','new delhi');
+insert into depositor values('nan','mewar','udaipur');
+insert into depositor values('ran','greater kailash','jammu');
+
+
+insert into loan values(213,'1qaz',45000);
+insert into loan values(342,'2wsx',12000);
+insert into loan values(453,'3edc',20000);
+insert into loan values(564,'4rfv',90000);
+insert into loan values(675,'5tgb',34000);
+
+
+insert into borrower values(213,'pan');
+insert into borrower values(342,'wan');
+insert into borrower values(453,'tan');
+insert into borrower values(564,'nan');
+insert into borrower values(675,'ran');
+
+
+
+
+
+
+
