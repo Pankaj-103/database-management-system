@@ -1,0 +1,51 @@
+create database insurance;
+use insurance;
+show tables;
+create table person(driver_id varchar(10) primary key ,dname varchar(20),address varchar(40) );
+desc person;
+create table car(reg_no varchar(20) primary key,model varchar(30),year int);
+desc car;
+create table accident(report_num int primary key,date date,location varchar(40));
+desc accident;
+create table owns(driver_id varchar(10) ,foreign key(driver_id) references person(driver_id) on delete cascade,reg_no varchar(20),foreign key(reg_no) references car(reg_no) on delete cascade);
+desc owns;
+create table participated(driver_id varchar(10),reg_no varchar(20),report_num int,dmg_amt int,foreign key(driver_id) references person(driver_id) on delete cascade,foreign key(reg_no) references car(reg_no) on delete cascade,foreign key(report_num) references accident(report_num) on delete cascade);
+desc participated;
+
+
+insert into person values('11QQ','shyam','vidyapeeta circle bull temple road');
+insert into person values('22ww','mohan','mount joy extension hanumanthanagar');
+insert into person values('33ee','ranvir','residency road indranagar');
+insert into person values('44rr','yogesh','near lal bagh botanical garden');
+insert into person values('55tt','abhilash','street no 4 baipanhalli');
+
+insert into car values('KA12','tata nexon',2017);
+insert into car values('KA34','celerio',2018);
+insert into car values('KA56','i20',2020);
+insert into car values('KA78','baleno',2016);
+insert into car values('KA90','duster',2022);
+
+insert into accident values(334,'2021-07-20','near nandi hills');
+insert into accident values(557,'2020-07-08','near orion mall');
+insert into accident values(798,'2019-12-08','cubbon park');
+insert into accident values(123,'2017-11-15','near grand trinity church');
+insert into accident values(987,'2022-03-30','banashankari');
+
+insert into owns values('11QQ','KA12');
+insert into owns values('22ww','KA34');
+insert into owns values('33ee','KA56');
+insert into owns values('44rr','KA78');
+insert into owns values('55tt','KA90');
+
+
+
+insert into participated values('11QQ','KA12',334,1250);
+insert into participated values('22ww','KA34',557,10240);
+insert into participated values('33ee','KA56',798,56000);
+insert into participated values('44rr','KA78',123,34549);
+insert into participated values('55tt','KA90',987,70560);
+
+select count(*) from accident where date <'2020-12-04';
+select count(*) from car,participated where car.reg_no=participated.reg_no and car.model='i20';
+
+commit;
