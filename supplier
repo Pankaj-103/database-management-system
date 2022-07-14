@@ -1,0 +1,57 @@
+create database supplier;
+use supplier;
+show tables;
+
+create table suppliers(sid int primary key,sname varchar(20),address varchar(30));
+create table parts(pid int primary key ,pname varchar(30),color varchar(30));
+create table catalog(sid int,pid int,cost real,foreign key(sid)  references suppliers(sid) on delete cascade,foreign key(pid) references parts(pid) on delete cascade);
+
+insert into suppliers values(231,'John d rockfellar','Richford Newyork');
+insert into suppliers values(342,'Andrew carnegie','Dunfermline United kingdom');
+insert into suppliers values(453,'Henry ford','Springwells Township Michigen');
+insert into suppliers values(564,'Cornelius vanderbilt','Staten Island Newyork');
+insert into suppliers values(675,'JP morgan','Hartford Connecticut');
+insert into suppliers values(897,'Robber barrons','Mountain view California');
+
+insert into parts value(19,'Rudder','red');
+insert into parts value(28,'cockpit','blue');
+insert into parts value(37,'fuselage','green');
+insert into parts value(46,'jet engine','orange');
+insert into parts value(50,'flaps','purple');
+insert into parts values(3779,'seats','brown');
+insert into parts values(3787,'parachute','white');
+insert into parts values(3808,'radars','black');
+
+
+insert into catalog values(231,19,567345);
+insert into catalog values(342,28,2056789);
+insert into catalog values(453,37,9878987);
+insert into catalog values(564,46,5067897);
+insert into catalog values(675,50,1345980);
+
+insert into catalog values(231,28,1978986);
+insert into catalog values(231,37,11978453);
+insert into catalog values(231,46,4867897);
+insert into catalog values(231,50,987675);
+
+insert into catalog values(564,3787,4800000);
+insert into catalog values(564,3808,5678987);
+
+select pname from parts;
+
+select distinct pname from parts,catalog where parts.pid=catalog.pid;
+
+select sname from suppliers,catalog,parts where suppliers.sid=catalog.sid and catalog.pid=parts.pid and parts.color='red';
+
+select sname from suppliers,catalog,parts where suppliers.sid=catalog.sid and catalog.pid=parts.pid and parts.pname='jet engine';
+
+
+select  parts.pname,catalog.cost,suppliers.sname from((catalog inner join suppliers on suppliers.sid=catalog.sid) inner join parts on parts.pid=catalog.pid);
+
+select suppliers.sname,catalog.sid,catalog.pid from catalog right join suppliers on catalog.sid=suppliers.sid ;
+
+ select catalog.sid,catalog.pid,suppliers.sname,parts.pname,parts.color from ((catalog cross join suppliers on catalog.sid=suppliers.sid) cross join parts on parts.pid=catalog.pid) ;
+
+select pname from parts,catalog where parts.pid=catalog.pid having max(catalog.cost);
+
+select  sid from catalog,parts  where catalog.pid=parts.pid and parts.color in('blue');
